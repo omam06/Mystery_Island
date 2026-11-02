@@ -10,4 +10,3 @@ def create_player(name):
         "beacon_restored": False
     }
     return player
-print(create_player("Travis"))
