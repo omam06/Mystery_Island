@@ -34,3 +34,15 @@ class TestGameState(unittest.TestCase):
     def test_game_starts_running(self):
         player = create_player("Keith")
         self.assertEqual(player["game_status"], "running")
+    
+    def test_explored_locations_start_at_empty_list(self):
+        player = create_player("Keith")
+        self.assertEqual(player["explored_locations"], [])
+
+    def test_checkpoint_start_as_beach(self):
+        player = create_player("Keith")
+        self.assertEqual(player["checkpoint"], "Beach")
+
+    def test_new_player_start_with_no_lighthouse_room(self):
+        player = create_player("Keith")
+        self.assertIsNone(player["lighthouse_room"])
