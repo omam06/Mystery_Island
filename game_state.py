@@ -6,6 +6,7 @@ def create_player(name):
         "explored_locations": [],
         "checkpoint": "Beach",
         "lighthouse_room": None,
+        "searched_lighthouse_rooms": [],
         "inventory": [],
         "clues": [],
         "game_status": "running",
