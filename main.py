@@ -55,7 +55,7 @@ else:
 
         if menu_choice == "1":
             if player["location"] == "Old Bridge":
-                print("You stand before the Old Bridge")
+                print("\nYou stand before the Old Bridge")
                 print("\nYou have 2 options:")
                 print("1. Use key to unlock the bridge")
                 print("2. Return to the main menu")
@@ -72,7 +72,7 @@ else:
 
             elif player["location"] == "Jungle":
                 if has_explored(player, "Jungle"):
-                    print("Jungle has been explored. You may only return here as checkpoint, not to explore again.")
+                    print("\nJungle has been explored. You may only return here as checkpoint, not to explore again.")
                 else:
                     print("\nYou've entered the Jungle. Two paths lie ahead:")
                     print("1. Take the rocky shortcut (costs 1 energy)")
@@ -101,7 +101,7 @@ else:
                             print("You completely explored the Jungle. Great Adventurer, you are.")
                             update_checkpoint(player, "Jungle")
                         else:
-                            print("Oh Snap! That's an incorrect order.")
+                            print("\nOh Snap! That's an incorrect order.")
                             use_energy(player)
                             if player["game_status"] == "running":
                                 return_to_checkpoint(player)
@@ -128,7 +128,7 @@ else:
 
                         if player["game_status"] == "running":
                             inscription = "Some things have teeth, yet never eat. They are made to open what is closed."
-                            print(f"While escaping, you discover an inscription: {inscription}")
+                            print(f"While escaping, you discover an inscription on the wall that says: {inscription}")
                             discover_clue(player, inscription)
                     else:
                         print("\nYou decide to ignore the sound and continue exploring.")
@@ -149,7 +149,7 @@ else:
                             update_checkpoint(player, "Cave")
                             print("Adventurer. You completely explored the cave!")
                         else:
-                            print("\nOh snap! Incorrect answer. You lose 1 energy.")
+                            print("\nOh snap! Incorrect answer. You lose 1 energy for failing the riddle.")
                             use_energy(player)
 
                             if player["game_status"] == "running":
@@ -164,8 +164,14 @@ else:
                 print("2. Move to another room")
                 print("3. View discovered clues")
                 print("4. Leave Lighthouse")
+                print("5. Restore the beacon")
 
                 house_choice = input("Select an option: ").strip()
+                
+                while house_choice not in ["1", "2", "3", "4", "5"]:
+                    print("\nInvalid option. Try again!")
+                    house_choice = input("Select an option: ").strip()
+
                 if house_choice == "1":
                     current_room = player["lighthouse_room"]
 
@@ -178,6 +184,7 @@ else:
 
                         print("\nYou discovered a clue!")
                         print(clue)
+
                 elif house_choice == "2":
                     rooms = {"1": "Control Room", "2": "Storage Room", "3": "Beacon Room"}
                     print("\nRooms in the Lighthouse:")
@@ -194,6 +201,46 @@ else:
                         barge_in = rooms[room_choice]
                         player["lighthouse_room"] = barge_in
                         print(f"\nYou have moved to the {player['lighthouse_room']}")
+                
+                elif house_choice == "3":
+                    print("\nDISCOVERED CLUES")
+                    for each_clue in player["clues"]:
+                        print(f"- {each_clue}")
+                    print("---------------------------------------------------------------------------------")
+                
+                elif house_choice == "4":
+                    player["location"] = "Old Bridge"
+                    player["lighthouse_room"] = None 
+                    print("\nYou have left the Lighthouse and returned to the Old Bridge")
+
+                elif house_choice == "5":
+                    if all(every_clue in player["clues"] for every_clue in lighthouse_clues.values()):
+                        print("\nYou have found all 3 Lighthouse clues and now ready to restore the beacon")
+                       
+                        switch1 = input("Which switch come first? ").strip().title()
+                        switch2 = input("Which switch is second? ").strip().title()
+                        switch3 = input("Which switch comes last? ").strip().title()
+
+                        switch_order = [switch1, switch2, switch3]
+                        correct_order = ["Power", "Signal", "Beacon"]
+
+                        if switch_order == correct_order:
+                            print("\nBim. All 3 switches activated in the correct order!")
+                            print("The Lighthouse beacon has been restored")
+                            player["beacon_restored"] = True
+                            player["game_status"] = "won"
+                        else:
+                            print("\nOh snap! Incorrect switch sequence.")
+                            print("You lose 1 energy for failing to activate the switchesin the correct order.")
+                            use_energy(player)
+
+                            if player["game_status"] == "running":
+                                return_to_checkpoint(player)
+                                print(f"You have been thrown back to your last saved checkpoint: {player['checkpoint']}")
+                    
+                    else:
+                        print("\nYou must discover all 3 Lighthouse clues first")
+                        print("Ensure you search through all 3 rooms") 
 
         elif menu_choice == "2":
             print("\nAVAILABLE LOCATIONS")
@@ -222,7 +269,7 @@ else:
                         player["lighthouse_room"] = "Control Room"
                         print("You have entered the Lighthouse Control Room")
                 else:
-                    print("Oh, snap! Movement failed.")
+                    print("\nOh, snap! Movement failed.")
             else:
                 print("Invalid destination. Must be from 1 to 5")
 
@@ -235,12 +282,13 @@ else:
                 print(player["inventory"])
                     
         elif menu_choice == "4":
-            print(f"Name: {player['name']}")
+            print(f"\nName: {player['name']}")
             print(f"Current Location: {player['location']}")
             print(f"Total Energy: {player['energy']}")
             print(f"List of Inventory: {player['inventory']}")
             print(f"Discovered Clues: {player['clues']}")
             print(f"Locations Successfully Explored: {player['explored_locations']}")
+            print(f"Rooms in the LightHouse that has been searched: {player['searched_lighthouse_rooms']}")
             print(f"Last saved checkpoint: {player['checkpoint']}")
 
 
@@ -252,5 +300,14 @@ else:
             print("Invalid option. Try again!")
 
     if player["game_status"] == "lost":
+        print("\nYour energy has run out. You couldn't survive the island.")
+        print("GAME OVER! Thanks for playing Mystery Island.")
+    
+    elif player["game_status"] == "won":
+        print("\nA rescue ship spots the restored beacon!")
+        print("Congratulations! You escaped Mystery Island!")
+        print("YOU WIN!")
+
+    elif player["game_status"] == "lost":
         print("\nYour energy has run out. You couldn't survive the island.")
         print("GAME OVER! Thanks for playing Mystery Island.")
