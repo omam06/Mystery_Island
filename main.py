@@ -13,11 +13,12 @@ lighthouse_clues = {
 
 def play_game():
 
-    print("======== MYSTERY ISLAND: MAKE IT OUT OR DIE TRYING ========\n")
+    print("\n======== MYSTERY ISLAND: MAKE IT OUT OR DIE TRYING ========\n")
     name = input("Hello, Adventurer 👋 What is your name? ").strip()
     player = create_player(name)
     print(f"\nWelcome, {name}. You wake up on a mysterious island after a terrible storm. Try to find your way out and try not to die while at it. Good luck, you'll need it around here.\n")
-
+    print("PS: Your energy is at 5, wrong decisions and failed puzzles reduces your energy, ensure it's sufficient enough to get you out. Game ends when energy becomes 0.")
+    
     intro_clue = "The lighthouse beacon must be restored for help to come 🚨"
     print(f"INTRODUCTORY CLUE: {intro_clue}")
     discover_clue(player, intro_clue)
@@ -140,7 +141,7 @@ def play_game():
                             print("An inscription on it reads:")
                             print(' "I have teeth but cannot bite. Open doors but have no hands." ')
 
-                            riddle_answer = input("What am I? ").strip()
+                            riddle_answer = input("What am I? ").strip().title()
 
                             if riddle_answer == "Key":
                                 print("\nCorrect! The container unlocks 🪎.")
@@ -258,8 +259,10 @@ def play_game():
                 
                 if where in locations:
                     motion = locations[where]
-                
-                    if motion == "Lighthouse" and "Lantern" not in player["inventory"]:
+                    if motion == player["location"]:
+                        print(f"\nYou are already at the {motion}!")
+
+                    elif motion == "Lighthouse" and "Lantern" not in player["inventory"]:
                         print("\nYou cannot enter the Lighthouse without a Lantern 🏮")
                         print("You lose 1 energy")
                         use_energy(player)
