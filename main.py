@@ -19,9 +19,11 @@ def play_game():
     print(f"\nWelcome, {name}. You wake up on a mysterious island after a terrible storm. Try to find your way out and try not to die while at it. Good luck, you'll need it around here.\n")
     print("\nRULES:")
     print("Your energy is at 5, wrong decisions and failed puzzles reduces your energy by 1, ensure the remaining energy is sufficient enough to get you out, as the game ends when energy becomes 0.")
-    print("From the beach, you can either move to the jungle or the cave. Not directly to the old bridge or the lighthouse")
-    print("You cannot unlock the bridge without the key, which is hidden in the jungle.")
+    print("From the beach, you can either move to the jungle or the cave. Not directly to the old bridge or the lighthouse.")
+    print("You cannot unlock the bridge without the key, which is hidden in the cave.")
+    print("You must first unlock the bridge before you can enter the  lighthouse")
     print("You cannot enter the lighthouse without the lantern, which you must first find in the jungle.\n")
+    
     intro_clue = "The lighthouse beacon must be restored for help to come 🚨"
     print(f"INTRODUCTORY CLUE: {intro_clue}")
     discover_clue(player, intro_clue)
