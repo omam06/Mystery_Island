@@ -17,7 +17,7 @@ def play_game():
     name = input("Hello, Adventurer 👋 What is your name? ").strip()
     player = create_player(name)
     print(f"\nWelcome, {name}. You wake up on a mysterious island after a terrible storm. Try to find your way out and try not to die while at it. Good luck, you'll need it around here.\n")
-    print("PS: Your energy is at 5, wrong decisions and failed puzzles reduces your energy, ensure it's sufficient enough to get you out. Game ends when energy becomes 0.")
+    print("PS: Your energy is at 5, wrong decisions and failed puzzles reduces your energy by 1, ensure the remaining energy is sufficient enough to get you out, as the game ends when energy becomes 0.")
     
     intro_clue = "The lighthouse beacon must be restored for help to come 🚨"
     print(f"INTRODUCTORY CLUE: {intro_clue}")
@@ -34,7 +34,7 @@ def play_game():
         choice = input("Enter an option: ").strip()
 
     if choice == "1":
-        print("A massive weird creature suddenly emerges from the bushes 🧌  startling you. You managed to escape to safety but the encounter costs you some energy .")
+        print("A massive weird creature suddenly emerges from the bushes 🧌  startling you. You managed to escape to safety but the encounter cost you 1 energy, you now have 4 energy left 🔋. Select 'Check Player Satus' anytime to check remaining energy level.")
         use_energy(player)
 
     else:
