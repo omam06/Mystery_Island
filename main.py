@@ -17,8 +17,11 @@ def play_game():
     name = input("Hello, Adventurer 👋 What is your name? ").strip()
     player = create_player(name)
     print(f"\nWelcome, {name}. You wake up on a mysterious island after a terrible storm. Try to find your way out and try not to die while at it. Good luck, you'll need it around here.\n")
-    print("PS: Your energy is at 5, wrong decisions and failed puzzles reduces your energy by 1, ensure the remaining energy is sufficient enough to get you out, as the game ends when energy becomes 0.")
-    
+    print("\nRULES:")
+    print("Your energy is at 5, wrong decisions and failed puzzles reduces your energy by 1, ensure the remaining energy is sufficient enough to get you out, as the game ends when energy becomes 0.")
+    print("From the beach, you can either move to the jungle or the cave. Not directly to the old bridge or the lighthouse")
+    print("You cannot unlock the bridge without the key, which is hidden in the jungle.")
+    print("You cannot enter the lighthouse without the lantern, which you must first find in the jungle.\n")
     intro_clue = "The lighthouse beacon must be restored for help to come 🚨"
     print(f"INTRODUCTORY CLUE: {intro_clue}")
     discover_clue(player, intro_clue)
@@ -90,12 +93,12 @@ def play_game():
 
                         if player["game_status"] == "running":
                             print("\nYou discover 3 sets of animal footprints 🐾:")
-                            print("\nRabbit 🐇: paired prints.")
-                            print("Deer 🦌: split-hoof prints")
+                            print("\nOrangutan 🦧: large elongated human prints.")
+                            print("Panda 🐼: large bear print with 6th toe")
                             print("Elephant 🐘: large round footprints.\n")
                             print("Arrange the animals from smallest to largest.")
                         
-                            answer = input("Enter your order with first letters in capital, separated by commas: ").strip()
+                            answer = input("Enter your order, separated by commas: ").strip().title()
                             if answer == "Rabbit, Deer, Elephant":
                                 print("\nCongrats! 🥳  You opened the chest 🪎")
                                 collect_item(player, "Lantern")
@@ -104,11 +107,11 @@ def play_game():
                                 print("You completely explored the Jungle ✔️ Great Adventurer, you are 🫡.")
                                 update_checkpoint(player, "Jungle")
                             else:
-                                print("\nOh, snap ❌  hat's an incorrect order.")
+                                print("\nOh, snap ❌  that's an incorrect order.")
                                 use_energy(player)
                                 if player["game_status"] == "running":
                                     return_to_checkpoint(player)
-                                    print(f"You have been returned to your last saved checkpoint; The {player['checkpoint']}")
+                                    print(f"You have been returned to your last saved checkpoint; The {player['checkpoint']}. And lost 1 energy. You may check player status for remaining energy.")
 
                 elif player["location"] == "Cave":
                     if has_explored(player, "Cave"):
@@ -157,7 +160,7 @@ def play_game():
 
                                 if player["game_status"] == "running":
                                     return_to_checkpoint(player)
-                                    print(f"You have been returned to your last saved checkpoint: The {player['checkpoint']}")
+                                    print(f"You have been returned to your last saved checkpoint: The {player['checkpoint']} And lost 1 energy. You may check player status for remaining energy.")
 
                 elif player["location"] == "Lighthouse":
                     print(f"\nYou are now in the {player['lighthouse_room']}")
@@ -220,7 +223,7 @@ def play_game():
                         if all(every_clue in player["clues"] for every_clue in lighthouse_clues.values()):
                             print("\nYou have found all 3 Lighthouse clues and now ready to restore the beacon🚨")
                        
-                            switch1 = input("Which switch come first? ").strip().title()
+                            switch1 = input("Which switch comes first? ").strip().title()
                             switch2 = input("Which switch is second? ").strip().title()
                             switch3 = input("Which switch comes last? ").strip().title()
 
@@ -234,12 +237,12 @@ def play_game():
                                 player["game_status"] = "won"
                             else:
                                 print("\nOh, snap ❌  Incorrect switch sequence.")
-                                print("You lose 1 energy for failing to activate the switchesin the correct order.")
+                                print("You lose 1 energy for failing to activate the switches in the correct order.")
                                 use_energy(player)
 
                                 if player["game_status"] == "running":
                                     return_to_checkpoint(player)
-                                    print(f"You have been thrown back to your last saved checkpoint: {player['checkpoint']}")
+                                    print(f"You have been thrown back to your last saved checkpoint: {player['checkpoint']}  And lost 1 energy. You may check player status for remaining energy.")
                     
                         else:
                             print("\nYou must discover all 3 Lighthouse clues first 🛙")
