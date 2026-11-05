@@ -101,7 +101,7 @@ def play_game():
                             print("Arrange the animals from smallest to largest.")
                         
                             answer = input("Enter your order, separated by commas: ").strip().title()
-                            if answer == "Rabbit, Deer, Elephant":
+                            if answer == "Panda, Orangutan, Elephant":
                                 print("\nCongrats! 🥳  You opened the chest 🪎")
                                 collect_item(player, "Lantern")
                                 print("Lantern 🏮  collected successfully")
